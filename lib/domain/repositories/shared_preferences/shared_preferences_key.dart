@@ -1,3 +1,4 @@
 enum SharedPreferencesKey {
-  sample
+  // AppSettings
+  onSaveWithShift,
 }

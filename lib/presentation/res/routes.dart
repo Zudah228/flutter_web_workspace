@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:go_router/go_router.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:flutter_fire_app_template/presentation/pages/loading/loading_page.dart';
@@ -16,6 +16,8 @@ import '../pages/sign_in/sign_in_page.dart';
 import '../pages/sign_up/sign_up_page.dart';
 
 typedef Redirect = FutureOr<String?> Function(BuildContext, GoRouterState);
+
+final navigatorKey = GlobalKey<NavigatorState>();
 
 final routerProvider = Provider((ref) {
   final currentUserValue = ref.watch(watchAuthStateProvider);
@@ -29,6 +31,7 @@ final routerProvider = Provider((ref) {
   redirectToLoading() => currentUserValue.isLoading ? AppRoutes.loading : null;
 
   return GoRouter(
+    navigatorKey: navigatorKey,
     routes: <GoRoute>[
       GoRoute(
         path: AppRoutes.root,

@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:go_router/go_router.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import '../../../common/index.dart';
 import '../../../domain/use_cases/auth/sign_up.dart';
 import '../../res/routes.dart';
 import '../../widgets/loading_indicator.dart';
@@ -45,6 +46,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 autofillHints: const [AutofillHints.email],
+                validator: validationBuilder.required().email().build(),
               ),
               const SizedBox(
                 height: 24,
@@ -54,6 +56,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                 controller: passwordController,
                 keyboardType: TextInputType.visiblePassword,
                 autofillHints: const [AutofillHints.password],
+                validator: validationBuilder.required().build(),
                 obscureText: true,
               ),
               const SizedBox(
@@ -64,6 +67,11 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                 controller: confirmPasswordController,
                 keyboardType: TextInputType.visiblePassword,
                 autofillHints: const [AutofillHints.password],
+                validator: validationBuilder
+                    .required()
+                    // Todo: 動作確認
+                    .match(passwordController.text)
+                    .build(),
                 obscureText: true,
               ),
               const SizedBox(

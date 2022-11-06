@@ -4,12 +4,11 @@ import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:go_router/go_router.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'package:flutter_fire_app_template/common/index.dart';
-import 'package:flutter_fire_app_template/presentation/widgets/shortcut_focus.dart';
-import '../../../common/utils/validator.dart';
+import '../../../common/index.dart';
+import '../../../common/utils/validation/validation.dart';
 import '../../../domain/use_cases/auth/sign_in.dart';
 import '../../res/routes.dart';
 
@@ -21,55 +20,92 @@ class SignInPage extends ConsumerStatefulWidget {
 }
 
 class _SignInPageState extends ConsumerState<SignInPage> {
-  final formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
-  final emailFocusNode = FocusNode();
-  final passwordController = TextEditingController();
+  var isLoading = false;
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _emailFocusNode = FocusNode();
+  final _passwordController = TextEditingController();
+  final _passwordFocusNode = FocusNode();
+
+  SignIn get signIn => ref.watch(signInProvider);
+
+  Future<void> _onSubmit() async {
+    if (isLoading) return;
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      await signIn(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      if (mounted) {
+        context.go(AppRoutes.root);
+      }
+    } catch (_) {}
+
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final signIn = ref.watch(signInProvider);
-
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 64),
         child: Form(
-          key: formKey,
+          key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text('メールアドレス'),
-              TextFormField(
-                controller: emailController,
-                keyboardType: TextInputType.emailAddress,
-                autofillHints: const [AutofillHints.email],
+              Focus(
+                onKeyEvent: (node, event) {
+                  if (event is KeyDownEvent &&
+                      event.logicalKey == LogicalKeyboardKey.tab) {
+                    _emailFocusNode.nextFocus();
+                    return KeyEventResult.handled;
+                  }
+                  return KeyEventResult.ignored;
+                },
+                child: TextFormField(
+                  autofocus: true,
+                  focusNode: _emailFocusNode,
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  autofillHints: const [AutofillHints.email],
+                  textInputAction: TextInputAction.next,
+                  validator: validationBuilder.required().email().build(),
+                ),
               ),
               const SizedBox(
                 height: 24,
               ),
               const Text('パスワード'),
-              TextFormField(
-                controller: passwordController,
-                validator: (value) => Validator().requiredValidator(value),
-                keyboardType: TextInputType.visiblePassword,
-                autofillHints: const [AutofillHints.password],
-                obscureText: true,
+              CallbackShortcuts(
+                bindings: {
+                  const SingleActivator(LogicalKeyboardKey.tab, shift: true):
+                      _passwordFocusNode.previousFocus
+                },
+                child: TextFormField(
+                  focusNode: _passwordFocusNode,
+                  controller: _passwordController,
+                  validator: validationBuilder.required().build(),
+                  keyboardType: TextInputType.visiblePassword,
+                  textInputAction: TextInputAction.done,
+                  autofillHints: const [
+                    AutofillHints.password,
+                  ],
+                  obscureText: true,
+                  onFieldSubmitted: (_) => _onSubmit(),
+                ),
               ),
               const SizedBox(
                 height: 24,
               ),
               ElevatedButton(
-                onPressed: () async {
-                  try {
-                    await signIn(
-                      email: emailController.text,
-                      password: passwordController.text,
-                    );
-                    if (mounted) {
-                      context.go(AppRoutes.root);
-                    }
-                  } catch (_) {}
-                },
+                onPressed: isLoading ? null : _onSubmit,
                 child: const Text('サインイン'),
               ),
               const SizedBox(

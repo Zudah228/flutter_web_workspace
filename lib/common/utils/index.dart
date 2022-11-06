@@ -5,5 +5,5 @@ export 'init_firebase.dart';
 export 'logger.dart';
 export 'ngram.dart';
 export 'uuid_generator.dart';
-export 'validator.dart';
+export 'validation/validation.dart';
 export 'browser_api.dart';

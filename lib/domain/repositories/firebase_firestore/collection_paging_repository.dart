@@ -1,6 +1,6 @@
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'document.dart';
@@ -8,7 +8,10 @@ import 'document.dart';
 final collectionPagingRepositoryProvider = Provider.family
     .autoDispose<CollectionPagingRepository, CollectionParam>((ref, query) {
   return CollectionPagingRepository(
-      query: query.query, limit: query.limit, decode: query.decode,);
+    query: query.query,
+    limit: query.limit,
+    decode: query.decode,
+  );
 });
 
 class CollectionParam<T extends Object> {
@@ -43,11 +46,13 @@ class CollectionPagingRepository<T extends Object> {
         final cacheDocuments = await _fetch(source: Source.cache);
         fromCache(
           cacheDocuments
-              .map((e) => Document(
-                    ref: e.reference,
-                    exists: e.exists,
-                    entity: e.exists ? decode(e.data()!) : null,
-                  ),)
+              .map(
+                (e) => Document(
+                  ref: e.reference,
+                  exists: e.exists,
+                  entity: e.exists ? decode(e.data()!) : null,
+                ),
+              )
               .toList(),
         );
       } on Exception catch (_) {
@@ -56,11 +61,13 @@ class CollectionPagingRepository<T extends Object> {
     }
     final documents = await _fetch(source: source);
     return documents
-        .map((e) => Document(
-              ref: e.reference,
-              exists: e.exists,
-              entity: e.exists ? decode(e.data()!) : null,
-            ),)
+        .map(
+          (e) => Document(
+            ref: e.reference,
+            exists: e.exists,
+            entity: e.exists ? decode(e.data()!) : null,
+          ),
+        )
         .toList();
   }
 
@@ -70,11 +77,13 @@ class CollectionPagingRepository<T extends Object> {
     final documents =
         await _fetch(source: source, startAfterDocument: _startAfterDocument);
     return documents
-        .map((e) => Document(
-              ref: e.reference,
-              exists: e.exists,
-              entity: e.exists ? decode(e.data()!) : null,
-            ),)
+        .map(
+          (e) => Document(
+            ref: e.reference,
+            exists: e.exists,
+            entity: e.exists ? decode(e.data()!) : null,
+          ),
+        )
         .toList();
   }
 

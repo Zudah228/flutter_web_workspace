@@ -17,6 +17,6 @@ class WrappedAutoSizedText extends StatelessWidget {
     return SelectionArea(
         child: AutoSizeText(
       data,
-    ));
+    ),);
   }
 }

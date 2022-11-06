@@ -2,7 +2,7 @@
 import 'package:flutter/foundation.dart';
 
 // Package imports:
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import '../../entities/user_profile/user_profile.dart';

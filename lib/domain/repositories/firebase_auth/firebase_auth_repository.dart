@@ -3,7 +3,7 @@ import 'dart:async';
 
 // Package imports:
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final firebaseAuthRepositoryProvider = Provider<FirebaseAuthRepository>((_) {
   return FirebaseAuthRepository(FirebaseAuth.instance);
@@ -21,14 +21,15 @@ class FirebaseAuthRepository {
   Future<String?> get idToken async {
     return _auth.currentUser?.getIdToken(true);
   }
-  
+
   Future<UserCredential> createUserWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
-    return _auth.createUserWithEmailAndPassword(email: email, password: password);
+    return _auth.createUserWithEmailAndPassword(
+        email: email, password: password,);
   }
-  
+
   Future<UserCredential> signInWithEmailAndPassword({
     required String email,
     required String password,
