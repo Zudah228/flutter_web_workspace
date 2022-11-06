@@ -1,8 +1,9 @@
-import 'package:flutter_fire_app_template/domain/repositories/shared_preferences/shared_preferences_key.dart';
-import 'package:flutter_fire_app_template/domain/repositories/shared_preferences/shared_preferences_repository.dart';
-
-import 'states/app_settings.dart';
+// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// Project imports:
+import '../../repositories/shared_preferences/shared_preferences_repository.dart';
+import 'states/app_settings.dart';
 
 final appSettingsProvider = StateNotifierProvider<AppSettingsNotifier, AppSettings>(AppSettingsNotifier.new);
 

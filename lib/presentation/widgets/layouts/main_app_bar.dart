@@ -1,7 +1,10 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import '../../../domain/use_cases/app_settings/app_settings_controller.dart';
+
+// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+// Project imports:
 import '../popup_menu_header.dart';
 
 const _iconWidth = 48.0;
@@ -9,7 +12,7 @@ const _iconWidth = 48.0;
 class MainAppBar extends AppBar {
   MainAppBar(
       {required String title,
-      GlobalKey<MainAppBarSettingButtonState>? settingPopupKey})
+      GlobalKey<MainAppBarSettingButtonState>? settingPopupKey,})
       : super(
           title: Text(title),
           leadingWidth: _iconWidth,
@@ -64,6 +67,6 @@ class MainAppBarSettingButtonState extends ConsumerState<_SettingButton> {
             ),
           ];
         },
-        child: const Icon(Icons.settings));
+        child: const Icon(Icons.settings),);
   }
 }

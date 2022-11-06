@@ -5,8 +5,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 // Project imports:
 import 'package:flutter_fire_app_template/presentation/pages/loading/loading_page.dart';

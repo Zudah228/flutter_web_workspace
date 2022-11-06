@@ -1,15 +1,16 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_fire_app_template/common/providers/shortcuts.dart';
-import 'package:flutter_fire_app_template/presentation/widgets/layouts/main_app_bar.dart';
-import '../../../domain/use_cases/todos/todo_controller.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:flutter_fire_app_template/common/providers/shortcuts.dart';
+import 'package:flutter_fire_app_template/presentation/widgets/layouts/main_app_bar.dart';
+import '../../../domain/use_cases/todos/todo_controller.dart';
 import '../add_item/add_item_dialog.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -42,9 +43,9 @@ class _HomePageState extends ConsumerState<HomePage> {
               const SingleActivator(LogicalKeyboardKey.keyK, meta: true):
                   VoidCallbackIntent(_showAddItemDialog),
               const SingleActivator(LogicalKeyboardKey.keyS,
-                      meta: true, shift: true):
+                      meta: true, shift: true,):
                   VoidCallbackIntent(
-                      settingPopupKey.currentState!.showButtonMenu)
+                      settingPopupKey.currentState!.showButtonMenu,)
             },
           );
     });

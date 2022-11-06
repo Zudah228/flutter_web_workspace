@@ -1,10 +1,12 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_fire_app_template/common/providers/shortcuts.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// Project imports:
+import '../../../common/providers/shortcuts.dart';
 
 abstract class ConsumerEscapeKeyPopState<T extends ConsumerStatefulWidget>
     extends ConsumerState<T> {
@@ -17,7 +19,7 @@ abstract class ConsumerEscapeKeyPopState<T extends ConsumerStatefulWidget>
             ...state,
             const SingleActivator(LogicalKeyboardKey.escape):
                 VoidCallbackIntent(() {
-              Navigator.of(context).pop();
+              if (mounted) Navigator.of(context).pop();
             }),
           };
         },
@@ -30,15 +32,10 @@ abstract class ConsumerEscapeKeyPopState<T extends ConsumerStatefulWidget>
   void dispose() {
     WidgetsBinding.instance.addPersistentFrameCallback((_) {
       ref.watch(shortcutsProvider.notifier).update((state) {
-        ShortcutsMap map = {};
-        state.forEach((key, value) {
-          if (key.triggers != {LogicalKeyboardKey.escape}) {
-            map = {
-              ...map,
-              key: value,
-            };
-          }
-        });
+        var map = {...state};
+        map.removeWhere(
+          (key, value) => key.triggers == {LogicalKeyboardKey.escape},
+        );
         return map;
       });
     });

@@ -31,7 +31,7 @@ ThemeData get appTheme {
     appBarTheme: base.appBarTheme.copyWith(
       backgroundColor: kPrimaryColor,
       foregroundColor: Colors.white,
-      iconTheme: IconThemeData(color: Colors.white),
+      iconTheme: const IconThemeData(color: Colors.white),
       elevation: 0,
       // iconTheme: base.iconTheme.copyWith(color: Colors.grey[300]),
     ),

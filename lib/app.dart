@@ -6,9 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'common/providers/app_theme.dart';
+import 'common/providers/shortcuts.dart';
 import 'presentation/res/app_theme.dart';
 import 'presentation/res/routes.dart';
-import 'common/providers/shortcuts.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
